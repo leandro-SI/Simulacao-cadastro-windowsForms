@@ -28,6 +28,7 @@ namespace Cadastro
             this.comboEC.SelectedIndex = 0;
 
             this.radioM.Checked = true;
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -44,7 +45,7 @@ namespace Cadastro
             {
                 if (pessoa.Nome == this.txtNome.Text)
                 {
-                    index = pessoas.IndexOf(p);
+                    index = pessoas.IndexOf(pessoa);
                 }
             }
 
@@ -54,7 +55,7 @@ namespace Cadastro
                 this.txtNome.Focus();
                 return;
             }
-            if (string.IsNullOrEmpty(this.txtTelefone.Text))
+            if (this.txtTelefone.Text.Equals("(  )      -"))
             {
                 MessageBox.Show("Preencha o campo Telefone.");
                 this.txtTelefone.Focus();
@@ -90,22 +91,63 @@ namespace Cadastro
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-
+            int indice = lista.SelectedIndex;
+            pessoas.RemoveAt(indice);
+            this.Listar();
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
         {
+            this.txtNome.Text = "";
+            this.txtData.Text = "";
+            this.txtData.Text = "";
+            this.comboEC.SelectedIndex = 0;
+            this.txtTelefone.Text = "";
+            this.checkCasa.Checked = false;
+            this.checkVeiculo.Checked = false;
+            this.radioM.Checked = true;
+            this.radioF.Checked = false;
+            this.radioO.Checked = false;
+            this.txtNome.Focus();
 
         }
 
         private void Listar()
         {
-            this.lista.Items.Clear();
+            lista.Items.Clear();
 
             foreach(Pessoa p in pessoas)
             {
-                this.lista.Items.Add(p);
+                lista.Items.Add(p);
             }
+
+        }
+
+        private void lista_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int indice = lista.SelectedIndex;
+            Pessoa p = pessoas[indice];
+
+            this.txtNome.Text = p.Nome;
+            this.txtData.Text = p.DataNascimento;
+            this.comboEC.SelectedItem = p.EstadoCivil;
+            this.txtTelefone.Text = p.Telefone;
+            this.checkCasa.Checked = p.CasaPropria;
+            this.checkVeiculo.Checked = p.Veiculo;
+            
+            switch (p.Sexo)
+            {
+                case 'M':
+                    this.radioM.Checked = true;
+                    break;
+                case 'F':
+                    this.radioF.Checked = true;
+                    break;
+                case 'O':
+                    this.radioO.Checked = true;
+                    break;
+            }
+
         }
     }
 }

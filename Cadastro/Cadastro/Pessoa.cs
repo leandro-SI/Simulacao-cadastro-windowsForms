@@ -15,5 +15,10 @@ namespace Cadastro
         public bool CasaPropria { get; set; }
         public bool Veiculo { get; set; }
         public char Sexo { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Nome} / {Telefone}";
+        }
     }
 }
